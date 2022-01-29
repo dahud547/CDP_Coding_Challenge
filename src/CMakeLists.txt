@@ -1,0 +1,1 @@
+add_executable(monitoring_pwr_states main.c)
