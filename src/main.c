@@ -29,9 +29,25 @@ int main(int argc, char * argv[])
     batt_packet_t batt_pack = {0};
     while ((0 == feof(p_bin_file)) ) //&& (0 == ret_status)) ///@todo Need to come back and rethink this
     {
-        get_pack_from_file(&p_bin_file, packet_buffer, MAX_PACKET_SIZE);
-        ret_status = process_packet(packet_buffer, MAX_PACKET_SIZE, &pwr_pack, &batt_pack);
-        ///@todo figure out how to rewind file if packet was a battery
+        packet_buffer[START_OF_PT_LOC] = (uint8_t)fgetc(p_bin_file);
+        packet_type_t pack_type = determine_packet_type(packet_buffer[START_OF_PT_LOC]);
+        switch (pack_type)
+        {
+        case power_pack:
+            get_pack_from_file(&p_bin_file,
+                               &packet_buffer[START_OF_TS_LOC],
+                               (SIZE_OF_PWR_PACK - PACKET_TYPE_NUM_OF_BYTES));
+            ret_status = process_pwr_packet(packet_buffer, &pwr_pack);
+            break;
+        case battery_pack:
+            get_pack_from_file(&p_bin_file,
+                               &packet_buffer[START_OF_TS_LOC],
+                               (SIZE_OF_BATT_PACK - PACKET_TYPE_NUM_OF_BYTES));
+            ret_status = process_batt_packet(packet_buffer, &batt_pack);
+            break;
+        default:
+            break;
+        }
     }
 
     (void)fclose(p_bin_file);

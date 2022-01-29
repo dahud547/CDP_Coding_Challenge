@@ -9,63 +9,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define PWR_PACKET_TYPE_BYTE 0x00u
-#define BATT_PACKET_TYPE_BYTE 0x01u
-#define START_OF_PT_LOC (0u)
-#define START_OF_TS_LOC (START_OF_PT_LOC + PACKET_TYPE_NUM_OF_BYTES)
-#define PWR_START_OF_VOLTS_LOC (START_OF_TS_LOC + TIMESTAMP_NUM_OF_BYTES)
-#define PWR_START_OF_MILLIAMP_LOC (PWR_START_OF_VOLTS_LOC + VOLTS_NUM_OF_BYTES)
-#define PWR_START_OF_ERR_CHECK_LOC (PWR_START_OF_MILLIAMP_LOC + MILLIAMP_NUM_OF_BYTES)
-#define BATT_START_OF_BATT_STATUS_LOC (START_OF_TS_LOC + TIMESTAMP_NUM_OF_BYTES)
-#define BATT_START_OF_ERR_CHECK_LOC (BATT_START_OF_BATT_STATUS_LOC + BATT_STAT_NUM_OF_BYTES)
-
 static uint32_t prev_pack_modulus = 0u;
 
-packet_type_t determine_packet_type(const uint8_t first_byte_of_pack);
-int process_pwr_packet(uint8_t * p_packet_buf, pwr_packet_t * p_out_pack);
-int process_batt_packet(uint8_t * p_packet_buf, batt_packet_t * p_out_pack);
 uint32_t convert_array_to_uint32(uint8_t * p_array, size_t length);
 int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet);
-
-/**
- * @brief Function for processing the incoming packet
- *
- * @param p_packet_buf Packet with a fixed length.
- * @param length length of the packet
- * @param pwr_out pointer to the power packet struct for data to be stored to
- * @param batt_out pointer to the battery packet struct for data to be stored to
- * @return int Success = 0
- */
-int process_packet(uint8_t * p_packet_buf,
-                   size_t length,
-                   pwr_packet_t * pwr_out,
-                   batt_packet_t * batt_out)
-{
-    int ret_status = -1;
-    if (MAX_PACKET_SIZE == length)
-    {
-        packet_type_t pack_type = determine_packet_type(p_packet_buf[START_OF_PT_LOC]);
-        switch (pack_type)
-        {
-        case power_pack:
-            ret_status = process_pwr_packet(p_packet_buf, pwr_out);
-            if (0 == ret_status)
-            {
-                ret_status = calc_power(pwr_out);
-            }
-            break;
-        case battery_pack:
-            ret_status = process_batt_packet(p_packet_buf, batt_out);
-            break;
-        default:
-            break;
-        }
-
-        ret_status = check_for_pack_error(pack_type, p_packet_buf);
-    }
-
-    return ret_status;
-}
 
 /**
  * @brief Function for determining the type of the incoming packet
@@ -113,9 +60,14 @@ int process_pwr_packet(uint8_t * p_packet_buf, pwr_packet_t * p_out_pack)
         p_out_pack->milliamps = convert_array_to_uint32(&p_packet_buf[PWR_START_OF_MILLIAMP_LOC],
                                                      MILLIAMP_NUM_OF_BYTES);
 
-        p_out_pack->err_check = (int8_t)p_packet_buf[PWR_START_OF_ERR_CHECK_LOC];
+        p_out_pack->err_check = (uint16_t)p_packet_buf[PWR_START_OF_ERR_CHECK_LOC];
 
-        ret_status = 0;
+        ret_status = calc_power(p_out_pack);
+
+        if(0 == ret_status)
+        {
+            ret_status = check_for_pack_error(power_pack, p_packet_buf);
+        }
     }
     return ret_status;
 }
@@ -137,9 +89,9 @@ int process_batt_packet(uint8_t * p_packet_buf, batt_packet_t * p_out_pack)
 
         p_out_pack->batt_status = p_packet_buf[BATT_START_OF_BATT_STATUS_LOC];
 
-        p_out_pack->err_check = (int8_t)p_packet_buf[BATT_START_OF_ERR_CHECK_LOC];
+        p_out_pack->err_check = (uint16_t)p_packet_buf[BATT_START_OF_ERR_CHECK_LOC];
 
-        ret_status = 0;
+        ret_status = check_for_pack_error(battery_pack, p_packet_buf);
     }
 
     return ret_status;
@@ -186,8 +138,6 @@ int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
         {
             ret_status = -1;
             printf("ERR: Packet Failed Error Check\n");
-            printf("prev_pack_modulus: %u\n", prev_pack_modulus);
-            printf("current modulus: %u\n", mod_of_pack);
         }
         break;
     case battery_pack:
@@ -196,8 +146,6 @@ int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
         {
             ret_status = -1;
             printf("ERR: Packet Failed Error Check\n");
-            printf("prev_pack_modulus: %u\n", prev_pack_modulus);
-            printf("current modulus: %u\n", mod_of_pack);
         }
         break;
     default:

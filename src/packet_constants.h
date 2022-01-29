@@ -34,12 +34,22 @@ extern "C" {
 #define MAX_PACKET_SIZE ((SIZE_OF_PWR_PACK > SIZE_OF_BATT_PACK) ? \
                           SIZE_OF_PWR_PACK : SIZE_OF_BATT_PACK)
 
+#define PWR_PACKET_TYPE_BYTE 0x00u
+#define BATT_PACKET_TYPE_BYTE 0x01u
+#define START_OF_PT_LOC (0u)
+#define START_OF_TS_LOC (START_OF_PT_LOC + PACKET_TYPE_NUM_OF_BYTES)
+#define PWR_START_OF_VOLTS_LOC (START_OF_TS_LOC + TIMESTAMP_NUM_OF_BYTES)
+#define PWR_START_OF_MILLIAMP_LOC (PWR_START_OF_VOLTS_LOC + VOLTS_NUM_OF_BYTES)
+#define PWR_START_OF_ERR_CHECK_LOC (PWR_START_OF_MILLIAMP_LOC + MILLIAMP_NUM_OF_BYTES)
+#define BATT_START_OF_BATT_STATUS_LOC (START_OF_TS_LOC + TIMESTAMP_NUM_OF_BYTES)
+#define BATT_START_OF_ERR_CHECK_LOC (BATT_START_OF_BATT_STATUS_LOC + BATT_STAT_NUM_OF_BYTES)
+
 typedef struct pwr_packet
 {
     uint32_t time_stamp;
     uint32_t volts;
     uint64_t milliamps;
-    uint32_t err_check;
+    uint16_t err_check;
     uint64_t milliwatts;
 } pwr_packet_t;
 
@@ -47,7 +57,7 @@ typedef struct batt_packet
 {
     uint32_t time_stamp;
     uint8_t batt_status;
-    uint32_t err_check;
+    uint16_t err_check;
 } batt_packet_t;
 
 typedef enum

@@ -15,10 +15,9 @@
 extern "C" {
 #endif
 
-int process_packet(uint8_t * p_packet_buf,
-                   size_t length,
-                   pwr_packet_t * pwr_out,
-                   batt_packet_t * batt_out);
+packet_type_t determine_packet_type(const uint8_t first_byte_of_pack);
+int process_pwr_packet(uint8_t * p_packet_buf, pwr_packet_t * p_out_pack);
+int process_batt_packet(uint8_t * p_packet_buf, batt_packet_t * p_out_pack);
 
 #ifdef __cplusplus
 }
