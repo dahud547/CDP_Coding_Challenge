@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-int parse_arguments(const int argc, char * argv[], FILE * p_file);
+int parse_arguments(const int argc, char * argv[], FILE ** p_file);
 
 /**
  * @brief
@@ -15,7 +15,13 @@ int main(int argc, char * argv[])
     int ret_status = 0;
     FILE * p_bin_file = NULL;
 
-    ret_status = parse_arguments(argc, argv, p_bin_file);
+    ret_status = parse_arguments(argc, argv, &p_bin_file);
+
+    while (0 == feof(p_bin_file))
+    {
+        printf("I made it into the while loop\n");
+        break;
+    }
 
     return ret_status;
 }
@@ -29,13 +35,13 @@ int main(int argc, char * argv[])
  *               invalid.
  * @return int Return status, 0 for success, error code for failure
  */
-int parse_arguments(const int argc, char * argv[], FILE * p_file)
+int parse_arguments(const int argc, char * argv[], FILE ** p_file)
 {
     int ret_status = 0;
     if (2 == argc)
     {
-        p_file = fopen(argv[0], "rb");
-        if (NULL == p_file)
+        *p_file = fopen(argv[0], "rb");
+        if (NULL == *p_file)
         {
             printf("ERR: Invalid File Location\n");
             ret_status = ENODATA;
@@ -43,7 +49,7 @@ int parse_arguments(const int argc, char * argv[], FILE * p_file)
         else
         {
             printf("File has been read in!\n");
-            (void)fclose(p_file);
+            (void)fclose(*p_file);
         }
     }
     else if (2 > argc)
