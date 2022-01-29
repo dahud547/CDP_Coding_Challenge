@@ -1,5 +1,9 @@
 {
     "workbench.colorCustomizations": {
         "statusBar.background" : "#087e96",
+    },
+    "files.associations": {
+        "*.tcc": "c",
+        "math.h": "c"
     }
 }

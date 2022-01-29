@@ -24,37 +24,14 @@ int main(int argc, char * argv[])
 
     ret_status = parse_arguments(argc, argv, &p_bin_file);
 
+    uint8_t packet_buffer[MAX_PACKET_SIZE] = {0};
     pwr_packet_t pwr_pack = {0};
     batt_packet_t batt_pack = {0};
-    while ((0 == feof(p_bin_file)) || (0 == ret_status))
+    while ((0 == feof(p_bin_file)) ) //&& (0 == ret_status)) ///@todo Need to come back and rethink this
     {
-        const uint8_t first_byte_of_pack = (uint8_t)fgetc(p_bin_file);
-        packet_type_t pack_type = determine_packet_type(first_byte_of_pack);
-
-        switch (pack_type)
-        {
-            case power_pack:
-            {
-                uint8_t temp_buf[SIZE_OF_PWR_PACK] = {0};
-                get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_PWR_PACK);
-                pwr_pack = process_pwr_packet(temp_buf);
-                ret_status = calc_power(&pwr_pack);
-                break;
-            }
-            case battery_pack:
-            {
-                uint8_t temp_buf[SIZE_OF_BATT_PACK] = {0};
-                get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_BATT_PACK);
-                batt_pack = process_batt_packet(temp_buf);
-                break;
-            }
-            case error_type:
-                // Intentional fall-through
-            default:
-                //printf("Err: Invalid packet type\n");
-                ret_status = EPROTO;
-                break;
-        }
+        get_pack_from_file(&p_bin_file, packet_buffer, MAX_PACKET_SIZE);
+        ret_status = process_packet(packet_buffer, MAX_PACKET_SIZE, &pwr_pack, &batt_pack);
+        ///@todo figure out how to rewind file if packet was a battery
     }
 
     (void)fclose(p_bin_file);

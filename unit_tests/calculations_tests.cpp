@@ -30,3 +30,13 @@ TEST(calculations_test_group, calc_power_successful_pwr_calculation)
     CHECK_EQUAL(0, ret_val);
     CHECK_EQUAL(200, test_packet.milliwatts);
 }
+
+TEST(calculations_test_group, modulus_tests)
+{
+    uint8_t test_buff[4] = {0x2,0x2,0x3,0x4};
+    uint32_t check_val = 0x02020304u;
+
+    uint32_t expected_modulus = check_val % 256;
+    uint32_t func_result = mod_of_array(test_buff, 4);
+    CHECK_EQUAL(expected_modulus, func_result);
+}
