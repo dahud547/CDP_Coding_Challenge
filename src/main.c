@@ -31,25 +31,26 @@ int main(int argc, char * argv[])
 
         switch (pack_type)
         {
-        case power_pack:
-        {
-            uint8_t temp_buf[SIZE_OF_PWR_PACK] = {0};
-            get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_PWR_PACK);
-            pwr_pack = process_pwr_packet(temp_buf);
-            break;
-        }
-        case battery_pack:
-        {
-            uint8_t temp_buf[SIZE_OF_BATT_PACK] = {0};
-            get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_BATT_PACK);
-            batt_pack = process_batt_packet(temp_buf);
-            break;
-        }
-        case error_type:
-            // Intentional fall-through
-        default:
-            ret_status = -1;
-            break;
+            case power_pack:
+            {
+                uint8_t temp_buf[SIZE_OF_PWR_PACK] = {0};
+                get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_PWR_PACK);
+                pwr_pack = process_pwr_packet(temp_buf);
+                break;
+            }
+            case battery_pack:
+            {
+                uint8_t temp_buf[SIZE_OF_BATT_PACK] = {0};
+                get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_BATT_PACK);
+                batt_pack = process_batt_packet(temp_buf);
+                break;
+            }
+            case error_type:
+                // Intentional fall-through
+            default:
+                //printf("Err: Invalid packet type\n");
+                ret_status = EPROTO;
+                break;
         }
     }
 
