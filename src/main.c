@@ -1,3 +1,5 @@
+#include "calculations.h"
+#include "packet_constants.h"
 #include "packet_parser.h"
 
 #include <stdint.h>
@@ -36,6 +38,7 @@ int main(int argc, char * argv[])
                 uint8_t temp_buf[SIZE_OF_PWR_PACK] = {0};
                 get_pack_from_file(&p_bin_file, temp_buf, SIZE_OF_PWR_PACK);
                 pwr_pack = process_pwr_packet(temp_buf);
+                ret_status = calc_power(&pwr_pack);
                 break;
             }
             case battery_pack:

@@ -27,6 +27,7 @@ set_property(TARGET imp_cpputest PROPERTY
              IMPORTED_LOCATION $ENV{CPPUTEST_HOME}/src/CppUTest/libCppUTest.a)
 
 add_library(packet_parser_tests ./packet_parser_tests.cpp ../src/packet_parser.c)
+add_library(calculations_tests ./calculations_tests.cpp ../src/calculations.c)
 
 add_executable(RunAllTests RunAllTests.cpp)
-target_link_libraries(RunAllTests imp_cpputest packet_parser_tests)
+target_link_libraries(RunAllTests imp_cpputest packet_parser_tests calculations_tests)

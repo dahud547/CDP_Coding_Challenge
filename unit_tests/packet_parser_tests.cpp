@@ -38,6 +38,7 @@ TEST(packet_parser_test_group, process_pwr_packet_null_check)
     CHECK_EQUAL_ZERO(ret_val.volts);
     CHECK_EQUAL_ZERO(ret_val.milliamps);
     CHECK_EQUAL_ZERO(ret_val.err_check);
+    CHECK_EQUAL_ZERO(ret_val.milliwatts);
 }
 
 TEST(packet_parser_test_group, process_batt_packet_null_check)
@@ -59,6 +60,7 @@ TEST(packet_parser_test_group, process_pwr_packet_successful_packet)
     CHECK_EQUAL(0x00000004, ret_val.volts);
     CHECK_EQUAL(0x0000000000000002, ret_val.milliamps);
     CHECK_EQUAL(0x01, ret_val.err_check);
+    CHECK_EQUAL_ZERO(ret_val.milliwatts);
 }
 
 TEST(packet_parser_test_group, process_batt_packet_successful_packet)

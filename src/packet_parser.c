@@ -102,7 +102,7 @@ batt_packet_t process_batt_packet(uint8_t * packet_buf)
 uint32_t convert_array_to_uint32(uint8_t * p_array, size_t length)
 {
     uint32_t ret_val = 0;
-    for (int i = (int)(length -1u); 0 <= i; --i)
+    for (size_t i = 0u; length > i; ++i)
     {
         ret_val <<= 8u;
         ret_val += p_array[i];
