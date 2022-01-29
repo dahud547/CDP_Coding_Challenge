@@ -35,7 +35,7 @@ uint32_t mod_of_array(uint8_t * p_array, size_t length)
     uint32_t ret_mod = 0;
     for (size_t i = 0; length > i; ++i)
     {
-        ret_mod = ((UINT8_MAX + 1ULL)*ret_mod + p_array[i]);
+        ret_mod = ((UINT8_MAX + 1u)*ret_mod + p_array[i]);
     }
     ret_mod %= 256;
     return ret_mod;
