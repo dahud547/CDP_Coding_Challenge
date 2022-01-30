@@ -38,12 +38,20 @@ int main(int argc, char * argv[])
                                &packet_buffer[START_OF_TS_LOC],
                                (SIZE_OF_PWR_PACK - PACKET_TYPE_NUM_OF_BYTES));
             ret_status = process_pwr_packet(packet_buffer, &pwr_pack);
+            if (0 == ret_status)
+            {
+                printf("Power is: %lu \n", pwr_pack.milliwatts);
+            }
             break;
         case battery_pack:
             get_pack_from_file(&p_bin_file,
                                &packet_buffer[START_OF_TS_LOC],
                                (SIZE_OF_BATT_PACK - PACKET_TYPE_NUM_OF_BYTES));
             ret_status = process_batt_packet(packet_buffer, &batt_pack);
+            if (0 == ret_status)
+            {
+                printf("Battery is: %u \n", batt_pack.batt_status);
+            }
             break;
         default:
             break;
@@ -69,7 +77,7 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file)
     int ret_status = 0;
     if (2 == argc)
     {
-        *p_file = fopen(argv[0], "rb");
+        *p_file = fopen(argv[1], "rt");
         if (NULL == *p_file)
         {
             perror("ERR: Invalid File Location\n");
@@ -93,6 +101,6 @@ void get_pack_from_file(FILE ** p_file, uint8_t * out_buff, const size_t size)
 {
     for (size_t i = 0; size > i; ++i)
     {
-        out_buff[0] = (uint8_t)fgetc(*p_file);
+        out_buff[i] = (uint8_t)fgetc(*p_file);
     }
 }

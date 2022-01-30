@@ -34,7 +34,11 @@ TEST(calculations_test_group, calc_power_successful_pwr_calculation)
 TEST(calculations_test_group, modulus_tests)
 {
     uint8_t test_buff[4] = {0x2,0x2,0x3,0x4};
-    uint32_t check_val = 0x02020304u;
+    uint32_t check_val = 0;
+    for (size_t i = 0; 4u > i; ++i)
+    {
+        check_val += test_buff[i];
+    }
 
     uint32_t expected_modulus = check_val % 256;
     uint32_t func_result = mod_of_array(test_buff, 4);

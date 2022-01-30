@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-static uint32_t prev_pack_modulus = 0u;
+static uint32_t prev_pack_modulus = 0xEFu;
 
 uint32_t convert_array_to_uint32(uint8_t * p_array, size_t length);
 int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet);
@@ -134,7 +134,7 @@ int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
     {
     case power_pack:
         mod_of_pack = mod_of_array(p_packet, (SIZE_OF_PWR_PACK - ERR_CHECK_NUM_OF_BYTES));
-        if (prev_pack_modulus != p_packet[PWR_START_OF_ERR_CHECK_LOC])
+        if (mod_of_pack != p_packet[PWR_START_OF_ERR_CHECK_LOC])
         {
             ret_status = -1;
             printf("ERR: Packet Failed Error Check\n");
@@ -142,7 +142,7 @@ int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
         break;
     case battery_pack:
         mod_of_pack = mod_of_array(p_packet, (SIZE_OF_BATT_PACK - ERR_CHECK_NUM_OF_BYTES));
-        if (prev_pack_modulus != p_packet[BATT_START_OF_ERR_CHECK_LOC])
+        if (mod_of_pack != p_packet[BATT_START_OF_ERR_CHECK_LOC])
         {
             ret_status = -1;
             printf("ERR: Packet Failed Error Check\n");
@@ -157,6 +157,7 @@ int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
     if(save_modulus)
     {
         prev_pack_modulus = mod_of_pack;
+        printf("Calc Modulus: %x\n", mod_of_pack);
     }
 
     return ret_status;

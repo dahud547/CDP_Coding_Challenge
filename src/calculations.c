@@ -24,7 +24,7 @@ int calc_power(pwr_packet_t * pwr_numbers)
 }
 
 /**
- * @brief Function for taking the modulus of an array
+ * @brief Function for taking the modulus of the data in an array
  *
  * @param p_array Array to be used
  * @param length Length of that array
@@ -35,8 +35,8 @@ uint32_t mod_of_array(uint8_t * p_array, size_t length)
     uint32_t ret_mod = 0;
     for (size_t i = 0; length > i; ++i)
     {
-        ret_mod = ((UINT8_MAX + 1u)*ret_mod + p_array[i]);
+        ret_mod = (ret_mod + p_array[i]);
+        ret_mod %= 256u;
     }
-    ret_mod %= 256;
     return ret_mod;
 }
