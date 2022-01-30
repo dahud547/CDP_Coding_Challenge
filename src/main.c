@@ -1,6 +1,7 @@
 #include "calculations.h"
 #include "packet_constants.h"
 #include "packet_parser.h"
+#include "state_handler.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -11,11 +12,11 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file);
 void get_pack_from_file(FILE ** p_file, uint8_t * out_buff, const size_t size);
 
 /**
- * @brief
+ * @brief Main function of the program
  *
- * @param argc
- * @param argv
- * @return int
+ * @param argc Number of arguments
+ * @param argv Pointer to the list of inputed arguments
+ * @return int Status of program
  */
 int main(int argc, char * argv[])
 {
@@ -38,23 +39,22 @@ int main(int argc, char * argv[])
                                &packet_buffer[START_OF_TS_LOC],
                                (SIZE_OF_PWR_PACK - PACKET_TYPE_NUM_OF_BYTES));
             ret_status = process_pwr_packet(packet_buffer, &pwr_pack);
-            if (0 == ret_status)
-            {
-                printf("Power is: %lu \n", pwr_pack.milliwatts);
-            }
             break;
         case battery_pack:
             get_pack_from_file(&p_bin_file,
                                &packet_buffer[START_OF_TS_LOC],
                                (SIZE_OF_BATT_PACK - PACKET_TYPE_NUM_OF_BYTES));
             ret_status = process_batt_packet(packet_buffer, &batt_pack);
-            if (0 == ret_status)
-            {
-                printf("Battery is: %u \n", batt_pack.batt_status);
-            }
             break;
         default:
             break;
+        }
+
+        if (0 == ret_status)
+        {
+            ret_status = process_state_and_transitions(pack_type,
+                                                       &pwr_pack,
+                                                       &batt_pack);
         }
     }
 
@@ -97,6 +97,13 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file)
     return ret_status;
 }
 
+/**
+ * @brief Get the pack from file object
+ *
+ * @param p_file Pointer to the file being processed
+ * @param out_buff Outputing the data obtained from the file
+ * @param size size of the buffer to output data in.
+ */
 void get_pack_from_file(FILE ** p_file, uint8_t * out_buff, const size_t size)
 {
     for (size_t i = 0; size > i; ++i)

@@ -35,6 +35,7 @@ set_property(TARGET imp_cpputest PROPERTY
 
 add_library(packet_parser_tests ./packet_parser_tests.cpp ../src/packet_parser.c)
 add_library(calculations_tests ./calculations_tests.cpp ../src/calculations.c)
+add_library(state_handler_tests ./state_handler_tests.cpp ../src/state_handler.c)
 
 add_executable(RunAllTests RunAllTests.cpp)
-target_link_libraries(RunAllTests imp_cpputest packet_parser_tests calculations_tests)
+target_link_libraries(RunAllTests imp_cpputest packet_parser_tests calculations_tests state_handler_tests)

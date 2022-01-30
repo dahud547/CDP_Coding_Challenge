@@ -157,7 +157,6 @@ int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
     if(save_modulus)
     {
         prev_pack_modulus = mod_of_pack;
-        printf("Calc Modulus: %x\n", mod_of_pack);
     }
 
     return ret_status;
