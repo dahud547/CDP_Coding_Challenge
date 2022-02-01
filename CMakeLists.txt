@@ -1,9 +1,13 @@
-cmake_minimum_required(VERSION 3.18.4)
-project(monitoring_pwr_states)
+cmake_minimum_required(VERSION 3.4.0)
+project(pwr_and_batt_packet_converter)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMKAE_VERBOSE_MAKEFILE ON)
+
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 add_compile_options(-Wall -Wextra -Wconversion -Wcast-align -Wcast-qual)
 add_compile_options(-Wdouble-promotion -Wduplicated-cond -Wfloat-equal -std=c11)

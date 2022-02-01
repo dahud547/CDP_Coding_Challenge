@@ -16,8 +16,8 @@
 extern "C" {
 #endif
 
-int calc_power(pwr_packet_t * pwr_numbers);
-uint32_t mod_of_array(uint8_t * p_array, size_t length);
+int calc_power(pwr_packet_t * const pwr_numbers);
+uint32_t mod_of_array(uint8_t const * const p_array, size_t length);
 
 #ifdef __cplusplus
 }

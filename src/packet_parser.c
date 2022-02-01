@@ -11,8 +11,10 @@
 
 static uint32_t prev_pack_modulus = 0xEFu;
 
-uint32_t convert_array_to_uint32(uint8_t * p_array, size_t length);
-int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet);
+uint32_t convert_array_to_uint32(uint8_t const * const p_array,
+                                 const size_t length);
+int check_for_pack_error(const packet_type_t pack_type,
+                         uint8_t const * const p_packet);
 
 /**
  * @brief Function for determining the type of the incoming packet
@@ -46,7 +48,8 @@ packet_type_t determine_packet_type(const uint8_t first_byte_of_pack)
  * @param packet_buf Buffer to be converted
  * @return pwr_packet_t Struct with the power information in it
  */
-int process_pwr_packet(uint8_t * p_packet_buf, pwr_packet_t * p_out_pack)
+int process_pwr_packet(uint8_t const * const p_packet_buf,
+                       pwr_packet_t * const p_out_pack)
 {
     int ret_status = -1;
     if((NULL != p_packet_buf) && (NULL != p_out_pack))
@@ -78,7 +81,8 @@ int process_pwr_packet(uint8_t * p_packet_buf, pwr_packet_t * p_out_pack)
  * @param packet_buf Buffer to be converted
  * @return batt_packet_t Struct with the battery information in it.
  */
-int process_batt_packet(uint8_t * p_packet_buf, batt_packet_t * p_out_pack)
+int process_batt_packet(uint8_t const * const p_packet_buf,
+                        batt_packet_t * const p_out_pack)
 {
     int ret_status = -1;
 
@@ -106,7 +110,8 @@ int process_batt_packet(uint8_t * p_packet_buf, batt_packet_t * p_out_pack)
  * @param length length of the array in bytes
  * @return uint32_t
  */
-uint32_t convert_array_to_uint32(uint8_t * p_array, size_t length)
+uint32_t convert_array_to_uint32(uint8_t const * const p_array,
+                                 const size_t length)
 {
     uint32_t ret_val = 0;
     for (size_t i = 0u; length > i; ++i)
@@ -125,7 +130,8 @@ uint32_t convert_array_to_uint32(uint8_t * p_array, size_t length)
  * @param p_packet pointer to the packet buffer
  * @return int Success = 0
  */
-int check_for_pack_error(packet_type_t pack_type, uint8_t * p_packet)
+int check_for_pack_error(const packet_type_t pack_type,
+                         uint8_t const * const p_packet)
 {
     int ret_status = 0;
     uint32_t mod_of_pack = 0;

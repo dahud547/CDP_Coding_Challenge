@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 3.4.0)
 project (UnitTests)
 
 # Check for CppUTest and bail out if they don't have it

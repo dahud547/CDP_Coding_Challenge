@@ -28,33 +28,38 @@ int main(int argc, char * argv[])
     uint8_t packet_buffer[MAX_PACKET_SIZE] = {0};
     pwr_packet_t pwr_pack = {0};
     batt_packet_t batt_pack = {0};
-    while ((0 == feof(p_bin_file)) ) //&& (0 == ret_status)) ///@todo Need to come back and rethink this
+    if (0 == ret_status)
     {
-        packet_buffer[START_OF_PT_LOC] = (uint8_t)fgetc(p_bin_file);
-        packet_type_t pack_type = determine_packet_type(packet_buffer[START_OF_PT_LOC]);
-        switch (pack_type)
+        ///@todo Potentially come back and rethink if we need any reason to
+        /// error out of this loop
+        while ((0 == feof(p_bin_file)) ) //&& (0 == ret_status))
         {
-        case power_pack:
-            get_pack_from_file(&p_bin_file,
-                               &packet_buffer[START_OF_TS_LOC],
-                               (SIZE_OF_PWR_PACK - PACKET_TYPE_NUM_OF_BYTES));
-            ret_status = process_pwr_packet(packet_buffer, &pwr_pack);
-            break;
-        case battery_pack:
-            get_pack_from_file(&p_bin_file,
-                               &packet_buffer[START_OF_TS_LOC],
-                               (SIZE_OF_BATT_PACK - PACKET_TYPE_NUM_OF_BYTES));
-            ret_status = process_batt_packet(packet_buffer, &batt_pack);
-            break;
-        default:
-            break;
-        }
+            packet_buffer[START_OF_PT_LOC] = (uint8_t)fgetc(p_bin_file);
+            packet_type_t pack_type = determine_packet_type(packet_buffer[START_OF_PT_LOC]);
+            switch (pack_type)
+            {
+            case power_pack:
+                get_pack_from_file(&p_bin_file,
+                                   &packet_buffer[START_OF_TS_LOC],
+                                   (SIZE_OF_PWR_PACK - PACKET_TYPE_NUM_OF_BYTES));
+                ret_status = process_pwr_packet(packet_buffer, &pwr_pack);
+                break;
+            case battery_pack:
+                get_pack_from_file(&p_bin_file,
+                                   &packet_buffer[START_OF_TS_LOC],
+                                   (SIZE_OF_BATT_PACK - PACKET_TYPE_NUM_OF_BYTES));
+                ret_status = process_batt_packet(packet_buffer, &batt_pack);
+                break;
+            default:
+                break;
+            }
 
-        if (0 == ret_status)
-        {
-            ret_status = process_state_and_transitions(pack_type,
-                                                       &pwr_pack,
-                                                       &batt_pack);
+            if (0 == ret_status)
+            {
+                ret_status = process_state_and_transitions(pack_type,
+                                                           &pwr_pack,
+                                                           &batt_pack);
+            }
         }
     }
 
@@ -81,7 +86,7 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file)
         if (NULL == *p_file)
         {
             perror("ERR: Invalid File Location\n");
-            ret_status = -1;
+            ret_status = ENFILE;
         }
     }
     else if (2 > argc)
@@ -92,7 +97,7 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file)
     else
     {
         printf("ERR: This requires only 1 input bin file\n");
-        ret_status = -1;
+        ret_status = ENFILE;
     }
     return ret_status;
 }

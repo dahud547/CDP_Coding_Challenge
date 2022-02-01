@@ -11,7 +11,7 @@
  * @param pwr_numbers Struct holding the power information
  * @return int Success = 0, failure = -1
  */
-int calc_power(pwr_packet_t * pwr_numbers)
+int calc_power(pwr_packet_t * const pwr_numbers)
 {
     int ret_status = -1;
     if (NULL != pwr_numbers)
@@ -30,7 +30,7 @@ int calc_power(pwr_packet_t * pwr_numbers)
  * @param length Length of that array
  * @return uint32_t Modulus of the array
  */
-uint32_t mod_of_array(uint8_t * p_array, size_t length)
+uint32_t mod_of_array(uint8_t const * const p_array, size_t length)
 {
     uint32_t ret_mod = 0;
     for (size_t i = 0; length > i; ++i)
