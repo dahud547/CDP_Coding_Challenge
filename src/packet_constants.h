@@ -47,19 +47,27 @@ extern "C" {
 /// Structure for holding the data related to the power packet
 typedef struct pwr_packet
 {
-    uint32_t time_stamp; /// Timestamp of the packet recieved in milliseconds
-    uint32_t volts; /// Volts of the power packet recieved
-    uint64_t milliamps; /// Milliamps of the power packet recieved
-    uint8_t err_check; /// Error check value of the packet
-    uint64_t milliwatts; /// The calculated power from the volts * milliamps
+    /// Timestamp of the packet recieved in milliseconds
+    uint32_t time_stamp;
+    /// Volts of the power packet recieved
+    uint32_t volts;
+    /// Milliamps of the power packet recieved
+    uint64_t milliamps;
+    /// Error check value of the packet
+    uint8_t err_check;
+    /// The calculated power from the volts * milliamps
+    uint64_t milliwatts;
 } pwr_packet_t;
 
 /// Structure for holding the data related to the battery packet
 typedef struct batt_packet
 {
-    uint32_t time_stamp; /// Timestamp of the packet recieved in milliseconds
-    uint8_t batt_status; /// Status of the battery, 0-3 for VLOW,LOW,MED,HIGH
-    uint8_t err_check; /// Error check value of the packet
+    /// Timestamp of the packet recieved in milliseconds
+    uint32_t time_stamp;
+    /// Status of the battery, 0-3 for VLOW,LOW,MED,HIGH
+    uint8_t batt_status;
+    /// Error check value of the packet
+    uint8_t err_check;
 } batt_packet_t;
 
 /// Typedef Enum to indicate which type of packet we are working with

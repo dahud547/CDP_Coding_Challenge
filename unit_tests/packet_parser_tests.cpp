@@ -6,7 +6,6 @@ TEST_GROUP(packet_parser_test_group)
 {
     void setup(void)
     {
-        prev_pack_modulus = 0u;
     }
 
     void teardown(void)
