@@ -2,13 +2,16 @@
 
 set -e
 
+# Create a build directory is one doesn't exist
 if [ ! -d ./build ]; then
     mkdir ./build
 fi
 
+# Generate build files
 cd ./build
 cmake ..
 
+# Make the program if successful
 if [ ! -f ./Makefile ]; then
     echo "ERR: CMake failed to create Makefile"
     exit -1
