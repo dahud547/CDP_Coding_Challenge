@@ -53,3 +53,20 @@ terminal, it should look something like (assuming run from in the bin folder):
 
 There is a test input file located at `${project_folder}/test_input_file/CodingTest.bin`
 for demostration purposes.
+
+## Unit Tests
+See the README.md file in the unit test folder for information on how to build
+and run the unit tests. If cpputest has already been installed or built in the
+submodule, then the script `make_and_run_unit_tests.sh` can be run from the
+project folder in a bash termnial. This script will build the unit tests and
+then runs them.
+
+## Doxygen
+The Doxyfile provided generates both HTML and Latex outputs. It will output all
+files to `${project_folder}/doc/doxy_output` and can be generated with running
+Doxygen on the command line like so:
+
+    doxygen ./Doxyfile
+
+The reference manual pdf, located in the doc folder was generated from the Latex
+output of the doxyfile.
