@@ -17,17 +17,17 @@
 
 typedef enum
 {
-    STATE_0 = 0,
-    STATE_1,
-    STATE_2,
-    STATE_3,
-    NUM_OF_STATES
+    STATE_0 = 0, /// Initial State for Power reading, 0 to 200 mW
+    STATE_1, /// 1st State for Power reading, 300 to 450 mW
+    STATE_2, /// 2nd State for Power reading, 550 to 650 mW
+    STATE_3, /// 2nd State for Power reading, 800 to 1200 mW
+    NUM_OF_STATES /// Number of total states
 } states_t;
 
 const char * batt_states[4] = {"VLOW", "LOW", "MED", "HIGH"};
 uint32_t calc_time_from_start_ms_to_sec(uint32_t current_ts_ms);
 states_t determine_state(pwr_packet_t const * const pwr);
-void set_initial_timestamp(const uint32_t ts);
+void set_initial_timestamp(const uint32_t ts_ms);
 bool time_check(uint32_t prev_ts_ms, uint32_t current_ts_ms);
 
 static uint32_t inital_ts_ms = 0;
@@ -151,11 +151,11 @@ states_t determine_state(pwr_packet_t const * const pwr)
 /**
  * @brief Set the initial timestamp object
  *
- * @param ts
+ * @param ts Initial timestampt to be saved in milliseconds
  */
-void set_initial_timestamp(const uint32_t ts)
+void set_initial_timestamp(const uint32_t ts_ms)
 {
-    inital_ts_ms = ts;
+    inital_ts_ms = ts_ms;
 }
 
 /**

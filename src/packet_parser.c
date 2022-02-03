@@ -9,8 +9,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-static uint32_t prev_pack_modulus = 0xEFu;
-
 uint32_t convert_array_to_uint32(uint8_t const * const p_array,
                                  const size_t length);
 int check_for_pack_error(const packet_type_t pack_type,
@@ -135,7 +133,6 @@ int check_for_pack_error(const packet_type_t pack_type,
 {
     int ret_status = 0;
     uint32_t mod_of_pack = 0;
-    bool save_modulus = true;
     switch (pack_type)
     {
     case power_pack:
@@ -155,14 +152,9 @@ int check_for_pack_error(const packet_type_t pack_type,
         }
         break;
     default:
-        // Should never be able to call this but should guard for it just in case
-        save_modulus = false;
+        // Do nothing, but return an error.
+        ret_status = -1;
         break;
-    }
-
-    if(save_modulus)
-    {
-        prev_pack_modulus = mod_of_pack;
     }
 
     return ret_status;

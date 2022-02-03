@@ -17,6 +17,6 @@ if [ ! -f ./Makefile ]; then
     exit -1
 else
     make
-    echo "$PWD/bin/pwr_and_batt_packet_converter is where the executable is located"
-    echo "To run, open up a terminal and run ./pwr_and_batt_packet_converter /path/to/file/to/be/converted"
+    echo "$PWD/bin/packet_converter is where the executable is located"
+    echo "To run, open up a terminal and run ./packet_converter /path/to/file/to/be/converted"
 fi
