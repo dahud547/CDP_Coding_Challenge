@@ -1,7 +1,7 @@
 /**
  * @file packet_constants.h
  *
- * @brief Header for information about packets like type and constants
+ * @brief Header for information about packets (ie type and constants)
  */
 
 #ifndef PACKET_CONSTANTS_H

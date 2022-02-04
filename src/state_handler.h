@@ -1,7 +1,7 @@
 /**
  * @file state_handler.h
  *
- * @brief Module for handling any state related functions.
+ * @brief Header for the module for handling any state related functions.
  */
 
 #ifndef STATE_HANDLER_H

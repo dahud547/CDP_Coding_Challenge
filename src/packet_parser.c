@@ -1,12 +1,11 @@
 /**
  * @file packet_parser.c
  *
- * @brief Module for parsing the incoming packets
+ * @brief Source for the module for parsing the incoming packet data
  */
 
 #include "packet_parser.h"
 #include "calculations.h"
-#include <stdbool.h>
 #include <stdio.h>
 
 uint32_t convert_array_to_uint32(uint8_t const * const p_array,
@@ -19,7 +18,7 @@ int check_for_pack_error(const packet_type_t pack_type,
  *
  * @param first_byte_of_pack 1st byte of the packet
  * @return packet_type_t Type of packet, will return the Enum error_type if it's
- *                       an invalid packet type.
+ *                       an invalid packet type
  */
 packet_type_t determine_packet_type(const uint8_t first_byte_of_pack)
 {
@@ -44,7 +43,7 @@ packet_type_t determine_packet_type(const uint8_t first_byte_of_pack)
  * @brief Function for creating a power packet from an input buffer
  *
  * @param packet_buf Buffer to be converted
- * @return pwr_packet_t Struct with the power information in it
+ * @return pwr_packet_t Structure with the power information in it
  */
 int process_pwr_packet(uint8_t const * const p_packet_buf,
                        pwr_packet_t * const p_out_pack)
@@ -77,7 +76,7 @@ int process_pwr_packet(uint8_t const * const p_packet_buf,
  * @brief Function for creating a battery status packet from an input buffer
  *
  * @param packet_buf Buffer to be converted
- * @return batt_packet_t Struct with the battery information in it.
+ * @return batt_packet_t Structure with the battery information in it
  */
 int process_batt_packet(uint8_t const * const p_packet_buf,
                         batt_packet_t * const p_out_pack)
@@ -102,10 +101,10 @@ int process_batt_packet(uint8_t const * const p_packet_buf,
 /**
  * @brief Function for converting an uint8_t array to an uint32_t
  *
- * @todo assert that the length is <=4 bytes
+ * @todo Assert that the length is <=4 bytes
  *
  * @param p_array Array to be converted
- * @param length length of the array in bytes
+ * @param length Length of the array in bytes
  * @return uint32_t
  */
 uint32_t convert_array_to_uint32(uint8_t const * const p_array,
@@ -125,7 +124,7 @@ uint32_t convert_array_to_uint32(uint8_t const * const p_array,
  * @brief Helper function to check the error byte for integraty
  *
  * @param pack_type Type of packet being checked
- * @param p_packet pointer to the packet buffer
+ * @param p_packet Pointer to the packet buffer
  * @return int Success = 0
  */
 int check_for_pack_error(const packet_type_t pack_type,

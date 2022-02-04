@@ -1,7 +1,8 @@
 /**
  * @file calculations.h
  *
- * @brief Module for holding the functions used for calculating power.
+ * @brief Header of the module for holding the functions used for calculating power
+ *
  */
 
 #ifndef CALCULATIONS_H

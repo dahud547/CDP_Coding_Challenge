@@ -1,8 +1,8 @@
 CDP Coding Challenge: Packet Parser
 ===================================
 
-Coding Challenge for Cambridge Design Partnership where this program converts
-two different packets to a text output.
+Description: This program converts two different packets to a text output in
+response to the Coding Challenge by Cambridge Design Partnership.
 
 ## Toolchains Used
 - GCC version 11.2.0
@@ -12,10 +12,10 @@ two different packets to a text output.
 
 ## Building the Application
 This project uses CMake to autogenerate the needed compiler configuration files
-to build the application. This project was built and tested with GCC so CMake
-generates a GNU makefile but CMake can autogenate build files for another
-compilers just as easily if so desired. To use other compilers or build systems,
-you will need to run CMake manual.
+to build the application. This project was built and tested with GCC; so CMake
+generates a GNU makefile but CMake can autogenerate build files for another
+compilers if so desired. To use other compilers or build systems, you will need
+to run CMake manually.
 
 ### Building using the Bash Script
 To easily build this program, open up a bash terminal in the project folder and
@@ -38,18 +38,18 @@ steps will assume a bash terminal is used, but can be adapted to your own termin
 
         cmake ../
 
-4. This should generate a makefile in the build folder, so next run make
+4. This will generate a makefile in the build folder, so next run make
 
         make
 
-5. If successful, this should generate an executable located `${project_folder}/build/bin`
+5. If successful, this will generate an executable located `${project_folder}/build/bin`
 
 ## Running the application
 The program needs an input bin file containing the data to be parsed. It should
 be passed as the only argument to the program on the command line. In a bash
-terminal, it should look something like (assuming run from in the bin folder):
+terminal, it should look similar to the following if run from in the bin folder.
 
-    ./pwr_and_batt_packet_converter /path/to/input/file
+    ./packet_converter /path/to/input/file
 
 There is a test input file located at `${project_folder}/test_input_file/CodingTest.bin`
 for demostration purposes.
@@ -59,7 +59,7 @@ See the README.md file in the unit test folder for information on how to build
 and run the unit tests. If cpputest has already been installed or built in the
 submodule, then the script `make_and_run_unit_tests.sh` can be run from the
 project folder in a bash termnial. This script will build the unit tests and
-then runs them.
+then run them.
 
 ## Doxygen
 The Doxyfile provided generates both HTML and Latex outputs. It will output all

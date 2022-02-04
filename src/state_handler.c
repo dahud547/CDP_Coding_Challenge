@@ -1,7 +1,7 @@
 /**
  * @file state_handler.c
  *
- * @brief Module for handling any state related functions.
+ * @brief Source file of the module for handling any state related functions.
  */
 #include "state_handler.h"
 #include <stdbool.h>
@@ -17,11 +17,16 @@
 
 typedef enum
 {
-    STATE_0 = 0, /// Initial State for Power reading, 0 to 200 mW
-    STATE_1, /// 1st State for Power reading, 300 to 450 mW
-    STATE_2, /// 2nd State for Power reading, 550 to 650 mW
-    STATE_3, /// 2nd State for Power reading, 800 to 1200 mW
-    NUM_OF_STATES /// Number of total states
+    /// Initial State for Power reading, 0 to 200 mW
+    STATE_0 = 0,
+    /// 1st State for Power reading, 300 to 450 mW
+    STATE_1,
+    /// 2nd State for Power reading, 550 to 650 mW
+    STATE_2,
+    /// 2nd State for Power reading, 800 to 1200 mW
+    STATE_3,
+    /// Number of total states
+    NUM_OF_STATES
 } states_t;
 
 const char * batt_states[4] = {"VLOW", "LOW", "MED", "HIGH"};
@@ -162,7 +167,7 @@ void set_initial_timestamp(const uint32_t ts_ms)
  * @brief Function to check if 2 timestamps are greater than 10 ms apart
  *
  * @todo There is probably a better way to handle an uint32_t overflow or
- *       underflow situation.
+ *       underflow situation
  *
  * @param prev_ts_ms Previous timestamp
  * @param current_ts_ms Current timestamp
@@ -175,7 +180,7 @@ bool time_check(uint32_t prev_ts_ms, uint32_t current_ts_ms)
 
     if (prev_ts_ms < current_ts_ms)
     {
-        if (10u < (current_ts_ms - prev_ts_ms))
+        if (10u <= (current_ts_ms - prev_ts_ms))
         {
             greater_than_10 = true;
         }

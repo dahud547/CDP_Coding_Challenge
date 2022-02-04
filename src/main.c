@@ -74,7 +74,7 @@ int main(int argc, char * argv[])
  * @param argc Number of arguments being entered
  * @param argv Array of the arguments
  * @param p_file Output of the file being expected to be passed. Will be NULL if
- *               invalid.
+ *               invalid
  * @return int Return status, 0 for success, error code for failure
  */
 int parse_arguments(const int argc, char * argv[], FILE ** p_file)
@@ -91,12 +91,14 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file)
     }
     else if (2 > argc)
     {
-        printf("ERR: No imput file passed in!\n");
+        printf("ERR: No imput file passed in! ");
+        printf("ie: packet_converter /path/to/bin/file \n");
         ret_status = ENODATA;
     }
     else
     {
-        printf("ERR: This requires only 1 input bin file\n");
+        printf("ERR: This requires only 1 input bin file ");
+        printf("ie: packet_converter /path/to/bin/file \n");
         ret_status = ENFILE;
     }
     return ret_status;
@@ -107,7 +109,7 @@ int parse_arguments(const int argc, char * argv[], FILE ** p_file)
  *
  * @param p_file Pointer to the file being processed
  * @param out_buff Outputing the data obtained from the file
- * @param size size of the buffer to output data in.
+ * @param size Size of the buffer to output data in
  */
 void get_pack_from_file(FILE ** p_file, uint8_t * out_buff, const size_t size)
 {

@@ -1,7 +1,7 @@
 /**
  * @file packet_parser.h
  *
- * @brief Module for parsing the incoming packets
+ * @brief Header for the module for parsing the incoming packet data
  */
 
 #ifndef PACKET_PARSER_H

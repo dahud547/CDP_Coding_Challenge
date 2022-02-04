@@ -1,14 +1,14 @@
 /**
  * @file calculations.c
  *
- * @brief Module for holding the functions used for calculating power.
+ * @brief Source file of the module for holding the functions used for calculating power.
  */
 #include "calculations.h"
 
 /**
  * @brief Function for calculating the power from the voltage and amperage given
  *
- * @param pwr_numbers Struct holding the power information
+ * @param pwr_numbers Structure holding the power information
  * @return int Success = 0, failure = -1
  */
 int calc_power(pwr_packet_t * const pwr_numbers)
